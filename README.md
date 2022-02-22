@@ -26,3 +26,9 @@ $ docker compose -f docker-compose.dev.yml up
 ```bash
 $ cd /home/app/apps/api && cargo watch -x run
 ```
+
+## 📝 Open in Visual Studio Code
+1. Once everything is running correctly, open [Visual Studio Code](https://code.visualstudio.com/) and install the [Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker).
+2. Go to the Docker tab in the [Activity Bar](https://code.visualstudio.com/docs/getstarted/userinterface), right-click the 'rust-nextjs-aws-file-hosting-service' entry, click 'Attach Visual Studio Code' and select the 'apps' container.
+3. Go to 'File -> Open Workspace from File...' and open the workspace.code-workspace file located in /home/app.
+4. And finally, install the [recommended extensions](https://code.visualstudio.com/docs/editor/extension-marketplace#_recommended-extensions).

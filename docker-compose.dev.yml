@@ -9,3 +9,16 @@ services:
     ports:
       - 3000:3000
       - 2000:2000
+  db:
+    image: postgres:14.1-alpine3.15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=filehosting
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data/
+
+volumes:
+  db:
