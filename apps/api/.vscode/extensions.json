@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "matklad.rust-analyzer",
-        "bungcip.better-toml"
+        "bungcip.better-toml",
+        "IronGeek.vscode-env"
     ]
 }

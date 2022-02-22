@@ -3,7 +3,9 @@ WORKDIR /home/app
 
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get -y install build-essential curl gnupg libssl-dev
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update
+RUN apt-get -y install build-essential curl gnupg libssl-dev pkg-config
 
 RUN curl -sL https://deb.nodesource.com/setup_17.x  | bash -
 RUN apt-get -y install nodejs
@@ -13,6 +15,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 RUN cargo install cargo-watch
+RUN cargo install sqlx-cli --no-default-features --features rustls,postgres
 
 WORKDIR /home/app/apps/web
 RUN yarn install

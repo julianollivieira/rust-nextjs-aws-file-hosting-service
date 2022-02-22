@@ -6,5 +6,8 @@
     },
     "files.exclude": {
         "target": true,
-    }
+    },
+    "rust-analyzer.diagnostics.disabled": [
+        "unresolved-macro-call"
+    ]
 }
