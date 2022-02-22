@@ -1,0 +1,10 @@
+{
+    "[rust]": {
+        "editor.defaultFormatter": "matklad.rust-analyzer",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
+    "files.exclude": {
+        "target": true,
+    }
+}
