@@ -1,0 +1,19 @@
+FROM ubuntu:20.04
+WORKDIR /home/app
+
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get -y install build-essential curl gnupg libssl-dev
+
+RUN curl -sL https://deb.nodesource.com/setup_17.x  | bash -
+RUN apt-get -y install nodejs
+RUN npm install --global yarn
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN cargo install cargo-watch
+
+WORKDIR /home/app/apps/web
+RUN yarn install
+CMD ["yarn", "dev"]
