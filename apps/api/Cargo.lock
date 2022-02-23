@@ -19,6 +19,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "dotenv_codegen",
+ "serde",
  "sqlx",
  "tokio",
  "tower-http",
