@@ -1,19 +1,12 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout/Layout";
-import {
-  Text,
-  Paper,
-  TextInput,
-  Box,
-  Button,
-  PasswordInput,
-} from "@mantine/core";
+import { Text, Paper, TextInput, Box, Button } from "@mantine/core";
 import { useFormik } from "formik";
 import Link from "@/components/Link";
 import { signInValidationSchema } from "@/validations";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+import PasswordInputWithRequirements from "@/components/PasswordInputWithRequirements";
 
-const SignInPage: NextPage = () => {
+const CreateAccountPage: NextPage = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -37,7 +30,7 @@ const SignInPage: NextPage = () => {
           fontWeight: 700,
         }}
       >
-        Sign in
+        Create an account
       </Text>
       <Box
         sx={{
@@ -50,40 +43,35 @@ const SignInPage: NextPage = () => {
           <form onSubmit={formik.handleSubmit}>
             <TextInput
               name="email"
-              label="Email address"
-              placeholder="Your email address"
+              label="E-mailadres"
+              placeholder="Jouw e-mailadres"
               autoComplete="email"
               error={formik.touched.email && formik.errors.email}
               value={formik.values.email}
               onChange={formik.handleChange}
               sx={{ marginBottom: 15 }}
             />
-            <PasswordInput
+            <PasswordInputWithRequirements
               name="password"
-              label="Password"
-              placeholder="Your password"
-              autoComplete="current-password"
+              label="Wachtwoord"
+              placeholder="Jouw wachtwoord"
+              autoComplete="new-password"
+              description="Password must include at least one letter, number and special character"
               error={formik.touched.password && formik.errors.password}
               value={formik.values.password}
               onChange={formik.handleChange}
               sx={{ marginBottom: 30 }}
-              visibilityToggleIcon={({ reveal }) =>
-                reveal ? (
-                  <EyeOffIcon style={{ width: 15 }} />
-                ) : (
-                  <EyeIcon style={{ width: 15 }} />
-                )
-              }
+              toggleTabIndex={0}
             />
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Button type="submit" color="blue">
-                Sign in
+                Create account
               </Button>
               <Link
-                href="/create-account"
+                href="/sign-in"
                 buttonProps={{ variant: "white", color: "blue" }}
               >
-                I don&apos;t have an account yet
+                I already have an account
               </Link>
             </Box>
           </form>
@@ -93,4 +81,4 @@ const SignInPage: NextPage = () => {
   );
 };
 
-export default SignInPage;
+export default CreateAccountPage;
