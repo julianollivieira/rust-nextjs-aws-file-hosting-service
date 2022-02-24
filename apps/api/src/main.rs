@@ -1,10 +1,15 @@
 #![forbid(unsafe_code)]
 
+mod controllers;
+
 #[macro_use]
 extern crate dotenv_codegen;
 
+use crate::controllers::auth;
+
 use axum::{
     http::{header, Method},
+    routing::post,
     AddExtensionLayer, Router,
 };
 use sqlx::postgres::PgPoolOptions;
@@ -27,6 +32,8 @@ async fn main() {
 
     // Initialize app with routes and CORS configuration
     let app = Router::new()
+        .route("/create-account", post(auth::create_account))
+        .route("/sign-in", post(auth::sign_in))
         .layer(AddExtensionLayer::new(pool))
         .layer(cors);
 
