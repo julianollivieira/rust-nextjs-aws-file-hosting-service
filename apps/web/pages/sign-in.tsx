@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { Text } from "@mantine/core";
 import Layout from "@/components/layout/Layout";
 
-const HomePage: NextPage = () => {
+const SignInPage: NextPage = () => {
   return (
     <Layout>
       <Text
@@ -15,10 +15,10 @@ const HomePage: NextPage = () => {
           fontWeight: 700,
         }}
       >
-        Home
+        Test page
       </Text>
     </Layout>
   );
 };
 
-export default HomePage;
+export default SignInPage;
