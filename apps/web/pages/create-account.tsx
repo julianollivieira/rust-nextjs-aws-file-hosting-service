@@ -5,8 +5,14 @@ import { useFormik } from "formik";
 import Link from "@/components/Link";
 import { signInValidationSchema } from "@/validations";
 import PasswordInputWithRequirements from "@/components/PasswordInputWithRequirements";
+import createAccount from "@/services/auth/createAccount";
+import { useNotifications } from "@mantine/notifications";
+import { useRouter } from "next/router";
 
 const CreateAccountPage: NextPage = () => {
+  const router = useRouter();
+  const notifications = useNotifications();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -14,7 +20,21 @@ const CreateAccountPage: NextPage = () => {
     },
     validationSchema: signInValidationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      const response = await createAccount(values.email, values.password);
+      if (response.type === "success") {
+        notifications.showNotification({
+          color: "green",
+          title: "Account succesfully created!",
+          message: "Redirecting you to the sign in page...",
+        });
+        router.push("/sign-in");
+      } else {
+        notifications.showNotification({
+          color: "red",
+          title: "Oops!",
+          message: response.message,
+        });
+      }
     },
   });
 

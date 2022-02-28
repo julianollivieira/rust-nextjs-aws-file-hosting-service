@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import { NextPage } from "next";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -20,7 +21,9 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
           colorScheme: "light",
         }}
       >
-        <Component {...pageProps} />
+        <NotificationsProvider>
+          <Component {...pageProps} />
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );
