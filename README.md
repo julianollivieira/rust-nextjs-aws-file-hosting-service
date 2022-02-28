@@ -21,7 +21,13 @@ $ cd rust-nextjs-aws-file-hosting-service
 $ docker compose -f docker-compose.dev.yml up
 ```
 
-4. And finally, get a shell inside the container, change directory into the API server and run cargo watch to re-run the API server on file change:
+4. Get a shell inside the container, change directory into the API server and run the migrations:
+
+```bash
+$ sqlx migrate run
+```
+
+5. And finally, run cargo watch to re-run the API server on file change:
 
 ```bash
 $ cd /home/app/apps/api && cargo watch -x run
