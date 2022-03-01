@@ -1,6 +1,7 @@
 #![forbid(unsafe_code)]
 
 mod controllers;
+mod utils;
 
 #[macro_use]
 extern crate dotenv_codegen;

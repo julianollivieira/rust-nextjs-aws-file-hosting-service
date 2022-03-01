@@ -6,30 +6,46 @@
 
 1. First of all, clone the project:
 
-```bash
+```console
 $ git clone https://github.com/julianollivieira/rust-nextjs-aws-file-hosting-service
 ```
 
 2. Change directory into the project root:
-```bash
+```console
 $ cd rust-nextjs-aws-file-hosting-service
 ```
 
-3. Make sure you have [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/) installed, make sure the Docker service is running and then start the development container with Docker Compose:
+3. Create environment files:
+```console
+$ mv apps/api/.env.example apps/api/.env
+$ mv apps/web/.env.example apps/web/.env
+```
 
-```bash
+4. Generate public and private keys for access tokens on the API server:
+```console
+$ openssl genrsa -out private.pem 2048
+$ openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+```
+
+5. Open the key files, remove the linebreaks, add them to the .env file and delete the key files.
+
+6. Repeat step 4-5 for the refresh tokens.
+
+7. Make sure you have [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/) installed, make sure the Docker service is running and then start the development container with Docker Compose:
+
+```console
 $ docker compose -f docker-compose.dev.yml up
 ```
 
-4. Get a shell inside the container, change directory into the API server and run the migrations:
+8. Get a shell inside the container, change directory into the API server and run the migrations:
 
-```bash
+```console
 $ sqlx migrate run
 ```
 
-5. And finally, run cargo watch to re-run the API server on file change:
+9. And finally, run cargo watch to re-run the API server on file change:
 
-```bash
+```console
 $ cd /home/app/apps/api && cargo watch -x run
 ```
 
