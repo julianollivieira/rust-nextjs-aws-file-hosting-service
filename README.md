@@ -21,29 +21,19 @@ $ mv apps/api/.env.example apps/api/.env
 $ mv apps/web/.env.example apps/web/.env
 ```
 
-4. Generate public and private keys for access tokens on the API server:
-```console
-$ openssl genrsa -out private.pem 2048
-$ openssl rsa -in private.pem -outform PEM -pubout -out public.pem
-```
-
-5. Open the key files, remove the linebreaks, add them to the .env file and delete the key files.
-
-6. Repeat step 4-5 for the refresh tokens.
-
-7. Make sure you have [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/) installed, make sure the Docker service is running and then start the development container with Docker Compose:
+4. Make sure you have [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/) installed, make sure the Docker service is running and then start the development container with Docker Compose:
 
 ```console
 $ docker compose -f docker-compose.dev.yml up
 ```
 
-8. Get a shell inside the container, change directory into the API server and run the migrations:
+5. Get a shell inside the container, change directory into the API server and run the migrations:
 
 ```console
 $ sqlx migrate run
 ```
 
-9. And finally, run cargo watch to re-run the API server on file change:
+6. And finally, run cargo watch to re-run the API server on file change:
 
 ```console
 $ cd /home/app/apps/api && cargo watch -x run

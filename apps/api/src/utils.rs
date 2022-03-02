@@ -1,42 +1,30 @@
-use jwt_simple::prelude::*;
+use serde::{Deserialize, Serialize};
+use std::{any::type_name, env, fmt::Debug, str::FromStr};
 
-pub enum TokenType {
-    AccessToken,
-    RefreshToken,
+#[derive(Serialize, Deserialize)]
+pub struct Response<T> {
+    r#type: String,
+    message: T,
 }
 
-pub fn generate_token(token_type: TokenType) -> Result<String, jwt_simple::Error> {
-    // Get private pem and create claims
-    let (private_pem, claims) = match token_type {
-        TokenType::AccessToken => (
-            dotenv!("JWT_ACCESS_TOKEN_PRIVATE_KEY"),
-            Claims::create(Duration::from_mins(2)),
-        ),
-        TokenType::RefreshToken => (
-            dotenv!("JWT_REFRESH_TOKEN_PRIVATE_KEY"),
-            Claims::create(Duration::from_days(7)),
-        ),
-    };
-
-    // Get key pair and generate token
-    let key_pair = RS384KeyPair::from_pem(private_pem)?;
-    let token = key_pair.sign(claims)?;
-
-    Ok(token)
+// Get environment variable from .env file and parse it to the specified type
+pub fn get_env_var<T>(name: &str) -> T
+where
+    T: FromStr,
+    <T as FromStr>::Err: Debug,
+{
+    let str = env::var(name).expect(&format!("{} must be set", name));
+    str.parse::<T>().expect(&format!(
+        "Failed to parse environment variable {} into type {}",
+        name,
+        type_name::<T>(),
+    ))
 }
 
-pub fn verify_token(
-    token_type: TokenType,
-    token: &str,
-) -> Result<JWTClaims<NoCustomClaims>, jwt_simple::Error> {
-    // Get public key from the env file
-    let public_key = RS384PublicKey::from_pem(match token_type {
-        TokenType::AccessToken => dotenv!("JWT_ACCESS_TOKEN_PUBLIC_KEY"),
-        TokenType::RefreshToken => dotenv!("JWT_REFRESH_TOKEN_PUBLIC_KEY"),
-    })?;
-
-    // Verify access token
-    let claims = public_key.verify_token::<NoCustomClaims>(token, None)?;
-
-    Ok(claims)
+pub fn response(r#type: &str, message: &str) -> String {
+    serde_json::to_string(&Response {
+        r#type: r#type.to_string(),
+        message: message.to_string(),
+    })
+    .unwrap()
 }
