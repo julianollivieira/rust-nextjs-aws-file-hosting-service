@@ -6,7 +6,7 @@ mod utils;
 use anyhow::Error;
 use axum::extract::Extension;
 use axum::http::{header, HeaderValue, Method};
-use axum::routing::post;
+use axum::routing::{get, post};
 use axum::Router;
 use dotenv::dotenv;
 use sqlx::postgres::PgPoolOptions;
@@ -53,6 +53,7 @@ fn init_router(db_pool: Pool<Postgres>, cors_layer: CorsLayer) -> Router {
     Router::new()
         .route("/create-account", post(controllers::create_account))
         .route("/sign-in", post(controllers::sign_in))
+        .route("/token", get(controllers::token))
         .layer(Extension(db_pool))
         .layer(cors_layer)
 }

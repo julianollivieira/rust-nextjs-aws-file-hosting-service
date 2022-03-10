@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::time::{SystemTime, UNIX_EPOCH};
 use std::{any::type_name, env, fmt::Debug, str::FromStr};
 
 #[derive(Serialize, Deserialize)]
@@ -27,4 +28,11 @@ pub fn response(r#type: &str, message: &str) -> String {
         message: message.to_string(),
     })
     .unwrap()
+}
+
+pub fn get_current_time() -> u128 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis()
 }
