@@ -5,7 +5,7 @@ use axum::extract::{Extension, Json};
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use rand::Rng;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use sqlx::postgres::PgPool;
 
 #[derive(Deserialize, Debug)]

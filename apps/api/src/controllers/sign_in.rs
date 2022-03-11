@@ -1,6 +1,6 @@
 use crate::models::User;
 use crate::tokens::generate_token;
-use crate::utils::get_env_var;
+use crate::tokens::TokenType;
 use crate::utils::Response;
 use anyhow::{anyhow, Error};
 use axum::extract::{Extension, Json};
@@ -35,11 +35,8 @@ pub async fn sign_in(
 ) -> impl IntoResponse {
     match verify_credentials(&pool, input.email, input.password.as_bytes()).await {
         Ok(user) => {
-            let refresh_secret = get_env_var::<String>("JWT_REFRESH_SECRET");
-            let refresh_token = generate_token(refresh_secret, 1, user.id).unwrap();
-
-            let access_secret = get_env_var::<String>("JWT_ACCESS_SECRET");
-            let access_token = generate_token(access_secret, 1, user.id).unwrap();
+            let refresh_token = generate_token(&TokenType::Refresh, user.id).unwrap();
+            let access_token = generate_token(&TokenType::Access, user.id).unwrap();
 
             let cookie_expires_on = (Utc::now() + Duration::days(30)).format("%a, %d %b %Y %T %Z");
 

@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use std::time::{SystemTime, UNIX_EPOCH};
 use std::{any::type_name, env, fmt::Debug, str::FromStr};
 
 // Get environment variable from .env file and parse it to the specified type
@@ -14,13 +13,6 @@ where
         name,
         type_name::<T>(),
     ))
-}
-
-pub fn get_current_time() -> u128 {
-    SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap()
-        .as_millis()
 }
 
 #[derive(Serialize, Deserialize)]

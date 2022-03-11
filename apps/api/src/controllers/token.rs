@@ -1,20 +1,26 @@
 use axum::extract::TypedHeader;
 use axum::headers::Cookie;
 use axum::http::StatusCode;
+use axum::response::IntoResponse;
+use uuid::Uuid;
 
-use crate::tokens::validate_token;
-use crate::utils::get_env_var;
+use crate::tokens::{generate_token, validate_token, TokenType};
+use crate::utils::Response;
 
-pub async fn token(
-    TypedHeader(cookie): TypedHeader<Cookie>,
-) -> Result<String, (StatusCode, String)> {
+pub async fn token(TypedHeader(cookie): TypedHeader<Cookie>) -> impl IntoResponse {
     let refresh_token_cookie = cookie.get("refresh_token").unwrap();
+    let decoded = validate_token(&TokenType::Refresh, refresh_token_cookie).unwrap();
 
-    let refresh_secret = get_env_var::<String>("JWT_REFRESH_SECRET");
-    let decoded = validate_token(refresh_secret, refresh_token_cookie).unwrap();
+    let user_id = decoded.claims.sub;
+    let uuid = Uuid::from_u128(user_id);
+    let access_token = generate_token(&TokenType::Access, uuid).unwrap();
 
-    let a = decoded.claims;
-    let b = a.sub;
-
-    Ok(b.to_string())
+    (
+        StatusCode::OK,
+        serde_json::to_string(&Response {
+            r#type: "success".to_string(),
+            data: access_token,
+        })
+        .unwrap(),
+    )
 }
