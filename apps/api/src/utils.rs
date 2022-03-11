@@ -2,12 +2,6 @@ use serde::{Deserialize, Serialize};
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::{any::type_name, env, fmt::Debug, str::FromStr};
 
-#[derive(Serialize, Deserialize)]
-pub struct Response<T> {
-    r#type: String,
-    message: T,
-}
-
 // Get environment variable from .env file and parse it to the specified type
 pub fn get_env_var<T>(name: &str) -> T
 where
@@ -22,17 +16,15 @@ where
     ))
 }
 
-pub fn response(r#type: &str, message: &str) -> String {
-    serde_json::to_string(&Response {
-        r#type: r#type.to_string(),
-        message: message.to_string(),
-    })
-    .unwrap()
-}
-
 pub fn get_current_time() -> u128 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
         .as_millis()
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Response<T> {
+    pub r#type: String,
+    pub data: T,
 }

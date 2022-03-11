@@ -1,6 +1,11 @@
-interface ServerResponse {
+interface ServerResponse<T> {
   type: "error" | "success";
-  message: any;
+  data: T;
 }
 
-export type { ServerResponse };
+interface User {
+  email: string;
+  id: String;
+}
+
+export type { ServerResponse, User };

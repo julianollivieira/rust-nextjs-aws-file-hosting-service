@@ -1,10 +1,10 @@
 use anyhow::Error;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sqlx::types::chrono::NaiveDateTime;
 use sqlx::types::Uuid;
 use sqlx::{Pool, Postgres};
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct User {
     pub id: Uuid,
     pub email: String,

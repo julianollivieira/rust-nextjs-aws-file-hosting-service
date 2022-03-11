@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
 import { Text } from "@mantine/core";
 import Layout from "@/components/layout/Layout";
+import { useData } from "@/hooks/useData";
 
-const LandingPage: NextPage = () => {
+const HomePage: NextPage = () => {
+  const { user } = useData();
+
   return (
     <Layout>
       <Text
@@ -15,10 +18,10 @@ const LandingPage: NextPage = () => {
           fontWeight: 700,
         }}
       >
-        Landing
+        You are {user === null && "not "}logged in! {user?.email}
       </Text>
     </Layout>
   );
 };
 
-export default LandingPage;
+export default HomePage;

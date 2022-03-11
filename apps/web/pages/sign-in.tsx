@@ -12,13 +12,14 @@ import { useFormik } from "formik";
 import Link from "@/components/Link";
 import { signInValidationSchema } from "@/validations";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
-import signIn from "@/services/auth/signIn";
 import { useNotifications } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import { useData } from "@/hooks/useData";
 
 const SignInPage: NextPage = () => {
   const router = useRouter();
   const notifications = useNotifications();
+  const { signIn } = useData();
 
   const formik = useFormik({
     initialValues: {
@@ -39,7 +40,7 @@ const SignInPage: NextPage = () => {
         notifications.showNotification({
           color: "red",
           title: "Oops!",
-          message: response.message,
+          message: response.data,
         });
       }
     },

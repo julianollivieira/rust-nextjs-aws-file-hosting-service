@@ -1,10 +1,11 @@
 use crate::models::User;
-use crate::utils::response;
+use crate::utils::Response;
 use anyhow::Error;
 use axum::extract::{Extension, Json};
 use axum::http::StatusCode;
+use axum::response::IntoResponse;
 use rand::Rng;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use sqlx::postgres::PgPool;
 
 #[derive(Deserialize, Debug)]
@@ -16,19 +17,27 @@ pub struct Input {
 pub async fn create_account(
     Json(input): Json<Input>,
     Extension(pool): Extension<PgPool>,
-) -> Result<String, (StatusCode, String)> {
+) -> impl IntoResponse {
     let (salt, hash) = generate_password_hash_and_salt(input.password).unwrap();
     let new_user_uuid_result = User::new(&pool, input.email, hash, salt.to_vec()).await;
 
     match new_user_uuid_result {
-        Ok(uuid) => Ok(response(
-            "success",
-            &format!("Account created with id {}", uuid.as_u128().to_string()),
-        )),
-        Err(_) => Err((
+        Ok(uuid) => (
+            StatusCode::OK,
+            serde_json::to_string(&Response {
+                r#type: "success".to_string(),
+                data: &format!("Account created with id {}", uuid.as_u128().to_string()),
+            })
+            .unwrap(),
+        ),
+        Err(_) => (
             StatusCode::BAD_REQUEST,
-            response("error", "Account already exists"),
-        )),
+            serde_json::to_string(&Response {
+                r#type: "success".to_string(),
+                data: "Account already exists".to_string(),
+            })
+            .unwrap(),
+        ),
     }
 }
 

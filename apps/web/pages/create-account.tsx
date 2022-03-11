@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import Link from "@/components/Link";
 import { signInValidationSchema } from "@/validations";
 import PasswordInputWithRequirements from "@/components/PasswordInputWithRequirements";
-import createAccount from "@/services/auth/createAccount";
+import createAccount from "@/actions/auth/createAccount";
 import { useNotifications } from "@mantine/notifications";
 import { useRouter } from "next/router";
 
@@ -32,7 +32,7 @@ const CreateAccountPage: NextPage = () => {
         notifications.showNotification({
           color: "red",
           title: "Oops!",
-          message: response.message,
+          message: response.data,
         });
       }
     },

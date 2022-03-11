@@ -1,9 +1,14 @@
-import { ServerResponse } from "@/types";
+import { ServerResponse, User } from "@/types";
+
+export interface SignInResponseData {
+  user: User;
+  access_token: string;
+}
 
 const signIn = async (
   email: string,
   password: string
-): Promise<ServerResponse> => {
+): Promise<ServerResponse<SignInResponseData>> => {
   return (await (
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sign-in`, {
       method: "POST",
@@ -12,7 +17,7 @@ const signIn = async (
       },
       body: JSON.stringify({ email, password }),
     })
-  ).json()) as ServerResponse;
+  ).json()) as ServerResponse<SignInResponseData>;
 };
 
 export default signIn;

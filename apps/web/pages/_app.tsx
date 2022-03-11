@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
+import { DataProvider } from "@/hooks/useData";
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -22,7 +23,9 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
         }}
       >
         <NotificationsProvider>
-          <Component {...pageProps} />
+          <DataProvider>
+            <Component {...pageProps} />
+          </DataProvider>
         </NotificationsProvider>
       </MantineProvider>
     </>
