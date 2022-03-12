@@ -28,9 +28,9 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<Context["user"]>(null);
   const [accessToken, setAccessToken] = useState<Context["accessToken"]>(null);
 
-  useEffect(() => {
-    getNewAccessToken();
-  }, []);
+  // useEffect(() => {
+  //   getNewAccessToken();
+  // }, []);
 
   useEffect(() => {
     console.log("👤 User changed!", user);

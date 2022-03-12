@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.5",
+    "@heroicons/react": "^1.0.6",
     "@mantine/core": "^3.6.9",
     "@mantine/hooks": "^3.6.9",
     "@mantine/next": "^3.6.9",

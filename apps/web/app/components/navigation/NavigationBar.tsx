@@ -35,7 +35,7 @@ const NavigationBar = ({}: Props): ReactElement => {
             <Box sx={{ display: "flex" }}>
               <Box sx={{ marginRight: 20 }}>
                 <Link
-                  href="/"
+                  href="/home"
                   buttonProps={{
                     variant: "white",
                     color: "blue",
@@ -47,6 +47,20 @@ const NavigationBar = ({}: Props): ReactElement => {
                   }}
                 >
                   Home
+                </Link>
+                <Link
+                  href="/files"
+                  buttonProps={{
+                    variant: "white",
+                    color: "blue",
+                    sx: (theme) => ({
+                      "&:hover": {
+                        color: theme.colors.blue[4],
+                      },
+                    }),
+                  }}
+                >
+                  Files
                 </Link>
                 <Link
                   href="/contact"
